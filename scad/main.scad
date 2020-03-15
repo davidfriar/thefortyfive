@@ -1,4 +1,6 @@
 include <lib/KeyV2/includes.scad>
+use <lib/BOSL/transforms.scad>
+use <lib/switch_mx.scad>
 
 my_layout = [
   [1,   1,1,1,1,1,1,1,1,1,1,1,1],
@@ -15,62 +17,96 @@ my_legends = [
 ];
 
 
+
 $fn=25;
 $font_size=4;
 unit=19.05;
 rows = 4;
 cols =13;
-height = unit * rows;
-width= unit * cols;
-border=unit / 4;
-base_thickness = 3;
-base_color = [209/255,163/255,56/255];
-plate_thickness = 1.5;
-plate_color = [209/255,163/255,56/255];
-wall_thickness = 3;
-wall_color = [211/255, 230/255, 225/255, 0.25];
+border= 4.7625;
 wall_depth = 6;
+base_thickness = 3;
+base_color = "goldenrod";
+plate_thickness = 1.5;
+plate_color = "goldenrod";
+wall_thickness = 3;
+wall_color = [0.827, 0.9, 0.88, 0.25];
 pcb_thickness = 1.6;
-pcb_color = [92/255, 28/255, 120/255];
+pcb_color = "darkmagenta";
 pcb_clearance = 1;
-pcb_width = width + border * 2 - wall_depth * 2 - pcb_clearance * 2;
-pcb_height = height + border * 2 - wall_depth * 2 - pcb_clearance * 2;
 bolt_hole_size=2;
 corner_hole_offset=4;
 explode = 0.01;
+show_base = true;
+show_walls = true;
+show_plate = true;
+show_keycaps=true;
+show_pcb = true;
 
+layout_height = unit * rows;
+layout_width= unit * cols;
+height = layout_height + 2 * border;
+width = layout_width + 2 * border;
+interior_height = height - wall_depth * 2;
+interior_width = width - wall_depth * 2;
+pcb_width = interior_width - pcb_clearance * 2;
+pcb_height = interior_height - pcb_clearance * 2;
+
+echo(layout_height=layout_height);
+echo(layout_width=layout_width);
+echo(height=height);
+echo(width=width);
+echo(interior_height=interior_height);
+echo(interior_width=interior_width);
+echo(pcb_width=pcb_width);
+echo(pcb_height=pcb_height);
+
+//right_half(x=width/2, s=width +50)
+rotate([7,0,0])
+translate([0,height-45, -3]) wall(h=45)
+translate([0,-height + 45,0])
 base()
   wall()
   wall()
   wall()
-    plate()
+    plate_layer()
       switches() {
         keycaps();
         pcb();
       }
+ translate([0, -100, 0])  battery();
+ translate([100, -100, 0])  controller();
 
+  cherry_mx_switch();
 
+/* difference(){ */
+/*   offset(1) hull() projection() keycaps(); */
+/*   translate([border-.5, border-.5, 0]) square([unit*.75, unit]); */
+/* } */
 
-/* wall(); */
+//#projection() keycaps();
 
+//  color("blue") translate([border, border, 0]) square([unit*.75, unit]);
 
 module keycaps(){
-  translate([border,border + height - unit/2, 0]){
-    layout(my_layout, "oem", my_legends) {
-      color([0.9,0.9,0.9]) render() { cherry() legends(0.7); }
-      color([0.2,0.25,0.25]) render() { cherry()  key(); }
+  if(show_keycaps) {
+    translate([border,border + layout_height - unit/2, 0]){
+      layout(my_layout, "oem", my_legends) {
+        color([0.9,0.9,0.9]) render() { cherry() legends(0.7); }
+        color([0.2,0.25,0.25]) render() { cherry()  key(); }
+      }
     }
   }
 }
 
 module base(){
   with_holes(base_thickness)
-    layer(base_thickness, color=base_color) children(0);
+    layer(base_thickness, color=base_color, visible=show_base) children(0);
 }
 
-module plate(){
+module plate_layer(){
   with_holes(plate_thickness)
-    layer(plate_thickness, color=plate_color) children(0);
+    layer(plate_thickness, color=plate_color, visible=show_plate) plate(my_layout); children(0);
 }
 
 module switches(){
@@ -82,12 +118,21 @@ module pcb(){
   color(pcb_color)
     translate([wall_depth + pcb_clearance, wall_depth + pcb_clearance,0])
       resize([pcb_width, pcb_height, pcb_thickness])
-        layer(pcb_thickness, color=pcb_color) children();
+        layer(pcb_thickness, color=pcb_color, visible=show_pcb) children();
 }
 
-module wall(){
+module battery() {
+  color("red") cube([37,30.5, 5.3]);
+}
+
+module controller(){
+
+  color("magenta") cube([51,23,8]);
+}
+
+module wall(w=width, h=height){
     with_holes(wall_thickness)
-      layer(wall_thickness, color=wall_color, wall=wall_depth) children();
+      layer(wall_thickness, color=wall_color, wall=wall_depth, w=w, h=h, visible=show_walls) children();
 }
 
 module hole(thickness){
@@ -100,11 +145,11 @@ module with_holes(thickness){
   corner_offset = 4;
   hole_locations=[
     [corner_offset, corner_offset],
-    [width + border * 2 - corner_offset, corner_offset],
-    [corner_offset, height + border*2 - corner_offset],
-    [width + border * 2 - corner_offset, height + border*2 - corner_offset],
-    [width/2 + border, wall_depth / 2],
-    [width/2 + border, height + border * 2 - wall_depth/2]
+    [width - corner_offset, corner_offset],
+    [corner_offset, height - corner_offset],
+    [width - corner_offset, height - corner_offset],
+    [width / 2 , wall_depth / 2],
+    [width/2, height - wall_depth/2]
   ];
 
     difference(){
@@ -116,20 +161,26 @@ module with_holes(thickness){
 
 }
 
-module layer(thickness, color, wall=0){
-
-  color(color) translate([border,border,0]) {
-    linear_extrude(height=thickness){
+module layer(thickness, color, wall=0, b=border,w=width, h=height, visible=true ){
+  if (visible) {
+    color(color) translate([border,border,0]) {
       difference(){
-        minkowski() {
-          square([width,height]);
-          circle(border);
+        linear_extrude(height=thickness){
+          minkowski() {
+            square([w - 2 * b, h - 2 * b]);
+              circle(b);
+          }
         }
+
         if(wall>0){
-          offset(-wall){
-            minkowski() {
-              square([width,height]);
-              circle(border);
+          translate([0,0,-1]) {
+            linear_extrude(height=thickness+2){
+              offset(-wall){
+                minkowski() {
+                  square([w - 2 * b, h - 2 * b]);
+                  circle(b);
+                }
+              }
             }
           }
         }
