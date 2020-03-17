@@ -1102,7 +1102,7 @@ Row4
 Text GLabel 14200 5500 2    50   Output ~ 0
 Row6
 Text GLabel 14200 7000 2    50   Output ~ 0
-Row7
+Row8
 Text GLabel 11100 850  1    50   Output ~ 0
 Col3
 Text GLabel 12100 850  1    50   Output ~ 0
@@ -1128,7 +1128,7 @@ U 1 1 5E92BB3B
 P 13650 3300
 F 0 "MX4,6:1" H 13750 3600 60  0000 C CNN
 F 1 "MX-NoLED" H 13683 3449 20  0000 C CNN
-F 2 "MX_Alps_Hybrid:MXOnly-2,25U" H 13025 3275 60  0001 C CNN
+F 2 "MX_Alps_Hybrid:MXOnly-2.25U" H 13025 3275 60  0001 C CNN
 F 3 "" H 13025 3275 60  0001 C CNN
 	1    13650 3300
 	1    0    0    -1  
@@ -1569,7 +1569,7 @@ U 1 1 5F87EA66
 P 1650 4750
 F 0 "MX5,1:1" H 1700 5050 60  0000 C CNN
 F 1 "MX-NoLED" H 1683 4899 20  0000 C CNN
-F 2 "MX_Alps_Hybrid:MXOnly-2,25U" H 1025 4725 60  0001 C CNN
+F 2 "MX_Alps_Hybrid:MXOnly-2.25U" H 1025 4725 60  0001 C CNN
 F 3 "" H 1025 4725 60  0001 C CNN
 	1    1650 4750
 	1    0    0    -1  
@@ -2060,35 +2060,35 @@ Wire Wire Line
 Connection ~ 13800 7000
 Wire Wire Line
 	13800 7000 14200 7000
-Text GLabel 5600 8550 0    50   Input ~ 0
-Row1
-Text GLabel 5600 8650 0    50   Input ~ 0
-Row2
-Text GLabel 5600 8750 0    50   Input ~ 0
-Row3
-Text GLabel 5600 8850 0    50   Input ~ 0
-Row4
-Text GLabel 5600 8950 0    50   Input ~ 0
-Row5
 Text GLabel 5600 9050 0    50   Input ~ 0
+Row1
+Text GLabel 5600 8550 0    50   Input ~ 0
+Row2
+Text GLabel 5600 8950 0    50   Input ~ 0
+Row3
+Text GLabel 5600 8650 0    50   Input ~ 0
+Row4
+Text GLabel 5600 8850 0    50   Input ~ 0
+Row5
+Text GLabel 5600 8750 0    50   Input ~ 0
 Row6
-Text GLabel 6350 9650 2    50   Input ~ 0
-Row7
-Text GLabel 6350 9550 2    50   Input ~ 0
-Row8
-Text GLabel 6350 9450 2    50   Input ~ 0
-Col1
-Text GLabel 6350 9350 2    50   Input ~ 0
-Col2
-Text GLabel 6350 9250 2    50   Input ~ 0
-Col3
-Text GLabel 6350 9150 2    50   Input ~ 0
-Col4
-Text GLabel 6350 9050 2    50   Input ~ 0
-Col5
-Text GLabel 6350 8950 2    50   Input ~ 0
-Col6
 Text GLabel 6350 8850 2    50   Input ~ 0
+Row7
+Text GLabel 6350 9650 2    50   Input ~ 0
+Row8
+Text GLabel 6350 9550 2    50   Input ~ 0
+Col1
+Text GLabel 6350 9450 2    50   Input ~ 0
+Col2
+Text GLabel 6350 9350 2    50   Input ~ 0
+Col3
+Text GLabel 6350 9250 2    50   Input ~ 0
+Col4
+Text GLabel 6350 9150 2    50   Input ~ 0
+Col5
+Text GLabel 6350 9050 2    50   Input ~ 0
+Col6
+Text GLabel 6350 8950 2    50   Input ~ 0
 Col7
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX3,1:1
