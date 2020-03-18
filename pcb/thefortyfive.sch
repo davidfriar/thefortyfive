@@ -2111,4 +2111,6 @@ Wire Wire Line
 Wire Wire Line
 	1600 3650 1800 3650
 Connection ~ 1800 3650
+Text GLabel 5600 8450 0    50   Input ~ 0
+GND
 $EndSCHEMATC
