@@ -27,13 +27,13 @@ $EndComp
 $Comp
 L Connector:Conn_01x12_Female J2
 U 1 1 5E6E03D7
-P 6150 9150
-F 0 "J2" H 6000 8400 50  0000 C CNN
-F 1 "Conn_01x12_Female" H 5800 8250 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical" H 6150 9150 50  0001 C CNN
-F 3 "~" H 6150 9150 50  0001 C CNN
-	1    6150 9150
-	-1   0    0    1   
+P 6500 9050
+F 0 "J2" H 6350 8300 50  0000 C CNN
+F 1 "Conn_01x12_Female" H 6150 8150 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical" H 6500 9050 50  0001 C CNN
+F 3 "~" H 6500 9050 50  0001 C CNN
+	1    6500 9050
+	-1   0    0    -1  
 $EndComp
 $Comp
 L Device:D_Small D1
@@ -2072,23 +2072,21 @@ Text GLabel 5600 8850 0    50   Input ~ 0
 Row5
 Text GLabel 5600 8750 0    50   Input ~ 0
 Row6
-Text GLabel 6350 8850 2    50   Input ~ 0
-Row7
-Text GLabel 6350 9650 2    50   Input ~ 0
+Text GLabel 6700 8850 2    50   Input ~ 0
 Row8
-Text GLabel 6350 9550 2    50   Input ~ 0
+Text GLabel 6700 8950 2    50   Input ~ 0
 Col1
-Text GLabel 6350 9450 2    50   Input ~ 0
+Text GLabel 6700 9050 2    50   Input ~ 0
 Col2
-Text GLabel 6350 9350 2    50   Input ~ 0
+Text GLabel 6700 9150 2    50   Input ~ 0
 Col3
-Text GLabel 6350 9250 2    50   Input ~ 0
+Text GLabel 6700 9250 2    50   Input ~ 0
 Col4
-Text GLabel 6350 9150 2    50   Input ~ 0
+Text GLabel 6700 9350 2    50   Input ~ 0
 Col5
-Text GLabel 6350 9050 2    50   Input ~ 0
+Text GLabel 6700 9450 2    50   Input ~ 0
 Col6
-Text GLabel 6350 8950 2    50   Input ~ 0
+Text GLabel 6700 9550 2    50   Input ~ 0
 Col7
 $Comp
 L MX_Alps_Hybrid:MX-NoLED MX3,1:1
@@ -2113,4 +2111,6 @@ Wire Wire Line
 Connection ~ 1800 3650
 Text GLabel 5600 8450 0    50   Input ~ 0
 GND
+Text GLabel 6700 9650 2    50   Input ~ 0
+Row7
 $EndSCHEMATC
