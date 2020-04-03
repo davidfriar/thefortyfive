@@ -106,7 +106,7 @@ module base(){
 
 module plate_layer(){
   with_holes(plate_thickness)
-    layer(plate_thickness, color=plate_color, visible=show_plate) plate(my_layout); children(0);
+    layer(plate_thickness, color=plate_color, visible=show_plate) /*plate(my_layout)*/; children(0);
 }
 
 module switches(){
