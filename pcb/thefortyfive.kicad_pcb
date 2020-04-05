@@ -17,8 +17,8 @@
   )
 
   (layers
-    (0 F.Cu signal)
-    (31 B.Cu signal hide)
+    (0 F.Cu signal hide)
+    (31 B.Cu signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
@@ -447,7 +447,7 @@
   )
 
   (module MountingHole:MountingHole_2.2mm_M2 (layer F.Cu) (tedit 56D1B4CB) (tstamp 5E89598D)
-    (at 274.6375 60.325)
+    (at 274.6375 61.9125)
     (descr "Mounting Hole 2.2mm, no annular, M2")
     (tags "mounting hole 2.2mm no annular m2")
     (attr virtual)
@@ -466,7 +466,7 @@
   )
 
   (module MountingHole:MountingHole_2.2mm_M2 (layer F.Cu) (tedit 56D1B4CB) (tstamp 5E895970)
-    (at 30.1625 60.325)
+    (at 30.1625 61.9125)
     (descr "Mounting Hole 2.2mm, no annular, M2")
     (tags "mounting hole 2.2mm no annular m2")
     (attr virtual)
