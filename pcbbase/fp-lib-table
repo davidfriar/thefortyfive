@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name thefortyfive)(type KiCad)(uri /home/david/projects/thefortyfive/art/thefortyfive.pretty)(options "")(descr ""))
+)
