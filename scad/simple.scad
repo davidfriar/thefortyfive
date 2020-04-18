@@ -1,4 +1,6 @@
 use <lib/BOSL/transforms.scad>
+include <lib/BOSL/constants.scad>
+use <lib/BOSL/shapes.scad>
 $fn=60;
 
 // todo
@@ -8,6 +10,7 @@ $fn=60;
 // stabiliser holes
 // gap for controller
 // mounting for usb
+// better board clearance solution
 //
 //cut into halves (dovetail joint?)
 //arrange for printing
@@ -27,16 +30,18 @@ clearance_hole_depth=2;
 large_clearance_hole_diameter=5;
 large_clearance_hole_depth=2;
 
-pcb_base()
-  body()
+
+/* pcb_base(); */
+  /* body(); */
+    /* pcb(); */
   /* translate([0,-82,19]) rotate([180,0,0]) body(); */
     pcb();
 /* top_holes(); */
 /* base_holes(); */
-
+/* name(); */
 
 module body(){
-  render() {
+  color("grey") render() {
     difference(){
       rotate([5,0,0]) {
         linear_extrude(height=12, convexity=10){
@@ -53,21 +58,43 @@ module body(){
       };
       rotate([5,0,0]) translate([0,0,12-clearance_hole_depth])
         clearance_holes();
+  rotate([5,0,0]) name();
     };
   }
   rotate([5,0,0]) translate([0,0,12+explode]) children();
 }
 
 module pcb_base(){
-  color("grey") import("pcb_bottom.stl");
+  color("darkgrey") import("pcb_bottom.stl");
+  translate([226.42,0,1.6]) rotate([0,0,180]) usb();
   translate([0,0,1.6+explode]) children();
 }
 
 module pcb(){
-  color("grey") import("pcb.stl");
+  color("darkgrey") import("pcb.stl");
+  translate([121.165,-22.75,-18.3]) feather();
+}
+module name(){
+   color("black") rotate([-90,180,0]) scale([0.8, 0.8, 1]) translate([-105,-283,-1]) render()  linear_extrude(height=2, convexity=10) import("../art/nameandpaw.svg");
 }
 
+module feather(){
+  board(50.64, 22.75, 1.6);
+}
 
+module usb(){
+  difference() {
+    board(20.5, 14.1, 1.5);
+    translate([2.63,2.63,-1])cylinder(h=3.5, d=2.3);
+    translate([17.87,2.63,-1])cylinder(h=3.5, d=2.3);
+  }
+  translate([5.7, 0, 1.5])
+    cuboid([9.1, 7, 3.3], center=false, fillet=1, edges=EDGE_TOP_LF+EDGE_TOP_RT+EDGE_BOT_LF+EDGE_BOT_RT );
+}
+
+module board(x,y,z) {
+  cuboid([x,y,z], center=false, fillet=2.63, edges=EDGE_BK_RT+EDGE_BK_LF+EDGE_FR_LF+EDGE_FR_RT);
+}
 module base_holes(){
   locations=[
     [243.63426,-25.66162,0],
