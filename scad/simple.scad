@@ -4,23 +4,24 @@ use <lib/BOSL/shapes.scad>
 $fn=60;
 
 // todo
-// extract parameters and use configurator
-// compensate for greater width at bottom
-// better clearance in corner
-// clearance for usb connector
-// switch
 //
-//cut into halves (dovetail joint?)
 //arrange for printing
-//
-//
-//? add switches and keys?
-//
+// for v2 :
+// deeper holes for inserts
+// deeper and wider hole to clear usb bolts
+// change pcb : 0.6 in not 0.7 inch for pcb mounting
+// ? 1mm taller
+// hole to clear diode
+// more clearance for stab mounts
+// one sided battery box (?design something better)
 //
 //
 
 explode=0;
 
+typing_angle=5;
+body_height=12;
+wall_thickness=8;
 hole_diameter=3.2;
 hole_depth=3;
 clearance_hole_diameter=3;
@@ -28,55 +29,55 @@ clearance_hole_depth=2;
 large_clearance_hole_diameter=5;
 large_clearance_hole_depth=2;
 
-body() ;
 
-/* pcb_base(); */
-  /* body(); */
-    /* pcb(); */
-  /* translate([0,-82,19]) rotate([180,0,0]) body(); */
-    /* pcb(); */
-/* top_holes(); */
-/* base_holes(); */
-/* name(); */
+
+body();
+
+
+
+
+module ready_to_print(){
+  body();
+  translate([0,-82,19]) rotate([180,0,0]) body();
+  translate([10, -10,0 ]) battery_compartment();
+  translate([10, -10,10 ]) battery_compartment();
+}
+
 
 module body(){
   color("grey") render() {
     difference(){
-      rotate([5,0,0]) {
-        linear_extrude(height=12, convexity=10){
+      rotate([typing_angle,0,0]) {
+        linear_extrude(height=body_height, convexity=10){
           difference() {
             hull() projection() pcb();
-            offset(-8) hull() projection() pcb();
+            offset(-wall_thickness) hull() projection() pcb();
           }
         };
       }
       translate([0,0,-300]) cube(600, center=true);
       base_holes();
-      rotate([5,0,0]) translate([0,0,12-hole_depth]) {
-        top_holes();
-      };
-      rotate([5,0,0]) translate([0,0,12-clearance_hole_depth])
-        clearance_holes();
-      rotate([5,0,0]) translate([111,-9,-1]) cube([52, 10, 14]);
-      /* translate([226.42,0,0]) rotate([0,0,180]) minkowski(){ usb(); sphere(0.5);} */
-      translate([226.52,0.1,0])rotate([0,0,180]){
-        cube([20.7, 14.1, 1.5]);
-        translate([5.7, 0, 1.4]){
-          cuboid([9.3, 9, 3.5], center=false, fillet=1, edges=EDGE_TOP_LF+EDGE_TOP_RT);
-        }
-        translate([2.63,2.63,1.4])cylinder(h=3.6, d=3.8);
-        translate([17.87,2.63,1.4])cylinder(h=3.6, d=3.8);
-
+      translate([226.52,0.1,0]) usb_hole();
+      rotate([typing_angle,0,0]){
+        translate([0,0,body_height-hole_depth]) top_holes();
+        translate([0,0,body_height-clearance_hole_depth]) clearance_holes();
+        translate([84, -1, 0]) name();
+        translate([185, 1,3.5]) switch_icon();
+        translate([190,-9,4]) switch_hole();
+        translate([111,-9,-1]) cube([55, 10, 14]);
+        translate([166,-15,-1]) rotate([0,0,45])cube([8,8,14]);
+        translate([111,-15,-1]) rotate([0,0,45])cube([8.5,8.5,14]);
+        translate([163,-12,5]) cuboid([20, 6, 5.5], edges=EDGE_TOP_BK+EDGE_BOT_BK+EDGE_BK_RT+EDGE_TOP_RT+EDGE_BOT_RT, center=false, fillet=2);
       }
-      rotate([5,0,0]) name();
     };
   }
-  rotate([5,0,0]) translate([0,0,12+explode]) children();
+  rotate([typing_angle,0,0]) translate([0,0,body_height+explode]) children();
 }
 
 module pcb_base(){
   color("darkgrey") import("pcb_bottom.stl");
   translate([226.42,0,1.6]) rotate([0,0,180]) usb();
+  translate([190.1, -5, 5.6]) rotate([5,0,0]) switch();
   translate([0,0,1.6+explode]) children();
 }
 
@@ -84,8 +85,15 @@ module pcb(){
   color("darkgrey") import("pcb.stl");
   translate([111.725,-22.75,-8.3]) feather();
 }
-module name(){
+module name_orig(){
    color("black") rotate([-90,180,0]) scale([0.8, 0.8, 1]) translate([-105,-283,-1]) render()  linear_extrude(height=2, convexity=10) import("../art/nameandpaw.svg");
+}
+module name(){
+   color("red") rotate([-90,180,0]) scale([0.8, 0.8, 1]) render() translate([0,-283,0]) linear_extrude(height=2, convexity=10) import("../art/nameandpaw.svg");
+}
+
+module switch_icon(){
+  rotate([90,0,0]) linear_extrude(height=2, convexity=10) import("../art/zap.svg");
 }
 
 module feather(){
@@ -161,10 +169,6 @@ module clearance_holes() {
     [157.355,-32.188],
   ];
 
-  left_locations=[
-    [36.705,-34.728],
-    [35.435,-37.268]
-  ];
 
   right_locations=[
     [274.195,-37.268],
@@ -177,12 +181,6 @@ module clearance_holes() {
         translate([0,-3,0]) translate(location) cylinder(h=clearance_hole_depth, d=clearance_hole_diameter);
       }
     }
-    for(location=left_locations){
-      hull(){
-        translate(location) cylinder(h=clearance_hole_depth, d=clearance_hole_diameter);
-        translate([3,0,0]) translate(location) cylinder(h=clearance_hole_depth, d=clearance_hole_diameter);
-      }
-    }
     for(location=right_locations){
       hull(){
         translate(location) cylinder(h=clearance_hole_depth, d=clearance_hole_diameter);
@@ -190,6 +188,7 @@ module clearance_holes() {
       }
     }
   }
+  translate([8,-12]) cylinder(d=8, clearance_hole_depth);
 
   large_clearance_holes();
 }
@@ -256,5 +255,36 @@ module large_clearance_holes() {
   translate([-28.575,25.4,0])
   for(location=locations){
     translate(location) cylinder(h=large_clearance_hole_depth, d=large_clearance_hole_diameter);
+  }
+}
+
+module switch(){
+  color("purple") union(){
+    cube([12, 5, 4]);
+    translate([4,5,1]) cube([2,2,2]);
+  }
+}
+
+module switch_hole(){
+  cube([12.2, 10, 4.2]);
+}
+
+module usb_hole(){
+  rotate([0,0,180]){
+    cube([20.7, 14.1, 1.5]);
+    translate([5.7, 0, 1.4]){
+      cuboid([9.3, 9, 3.5], center=false, fillet=1, edges=EDGE_TOP_LF+EDGE_TOP_RT);
+    }
+    translate([2.63,2.63,1.4])cylinder(h=3.6, d=3.8);
+    translate([17.87,2.63,1.4])cylinder(h=3.6, d=3.8);
+  }
+}
+
+module battery_compartment(){
+  translate([0,-38,0]) {
+    difference(){
+      cube([63, 38, 6.5]);
+      translate([-1,1, -1]) cube([63, 36, 6.5]);
+    }
   }
 }
