@@ -3,18 +3,6 @@ include <lib/BOSL/constants.scad>
 use <lib/BOSL/shapes.scad>
 $fn=60;
 
-// todo
-//
-//arrange for printing
-// for v2 :
-// deeper and wider hole to clear usb bolts
-// change pcb : 0.6 in not 0.7 inch for pcb mounting
-// ? 1mm taller
-// more clearance for stab mounts
-// one sided battery box (?design something better)
-//
-//
-
 explode=0;
 
 typing_angle=5;
@@ -224,8 +212,9 @@ module usb_hole(){
     translate([5.7, 0, 1.4]){
       cuboid([9.3, 9, 3.5], center=false, fillet=1, edges=EDGE_TOP_LF+EDGE_TOP_RT);
     }
-    translate([2.63,2.63,1.4])cylinder(h=3.6, d=3.8);
-    translate([17.87,2.63,1.4])cylinder(h=3.6, d=3.8);
+    translate([2.63,2.63,1.4])cylinder(h=4.25, d=3.8);
+    translate([17.87,2.63,1.4])cylinder(h=4.25, d=3.8);
+    translate([14.7,5,1.4])cube([6, 5, 2]);
   }
 }
 
