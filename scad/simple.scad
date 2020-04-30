@@ -29,11 +29,7 @@ large_clearance_hole_diameter=5;
 large_clearance_hole_depth=2;
 
 
-
-body();
-
-
-
+body() ;
 
 module ready_to_print(){
   body();
@@ -67,6 +63,7 @@ module body(){
         translate([166,-15,-1]) rotate([0,0,45])cube([8,8,14]);
         translate([111,-15,-1]) rotate([0,0,45])cube([8.5,8.5,14]);
         translate([163,-12,5]) cuboid([20, 6, 5.5], edges=EDGE_TOP_BK+EDGE_BOT_BK+EDGE_BK_RT+EDGE_TOP_RT+EDGE_BOT_RT, center=false, fillet=2);
+
       }
     };
   }
@@ -188,6 +185,8 @@ module clearance_holes() {
     }
   }
   translate([8,-12]) cylinder(d=8, clearance_hole_depth);
+
+  translate([246, -46.5, 0])  cylinder(d=6, clearance_hole_depth);
 
   large_clearance_holes();
 }
