@@ -7,7 +7,6 @@ $fn=60;
 //
 //arrange for printing
 // for v2 :
-// deeper holes for inserts
 // deeper and wider hole to clear usb bolts
 // change pcb : 0.6 in not 0.7 inch for pcb mounting
 // ? 1mm taller
@@ -23,7 +22,7 @@ typing_angle=5;
 body_height=12;
 wall_thickness=8;
 hole_diameter=3.2;
-hole_depth=3;
+hole_depth=4.25;
 clearance_hole_diameter=3;
 clearance_hole_depth=2;
 large_clearance_hole_diameter=5;
