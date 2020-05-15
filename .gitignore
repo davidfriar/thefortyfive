@@ -25,9 +25,12 @@ fp-info-cache
 *.xml
 *.csv
 
+*.stl
+
 pcb/gerbers
 pcb/gerberstmp
 pcb/todo
 pcb/render
 pcbbase/gerbers
+pcbbase/gerberstmp
 
