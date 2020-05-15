@@ -1,5 +1,6 @@
 use <lib/BOSL/transforms.scad>
 include <lib/BOSL/constants.scad>
+include <keycaps.scad>
 use <lib/BOSL/shapes.scad>
 $fn=60;
 
@@ -15,13 +16,16 @@ clearance_hole_depth=2;
 large_clearance_hole_diameter=6;
 large_clearance_hole_depth=2;
 
-body() ;
+ready_to_print();
+
+/* keycaps(); */
 
 module ready_to_print(){
   body();
   translate([0,-82,19]) rotate([180,0,0]) body();
-  translate([10, -10,0 ]) battery_compartment();
-  translate([10, -10,10 ]) battery_compartment();
+  translate([174, -14,4.5 ]) battery_compartment();
+  translate([174, -10,12.5 ]) battery_compartment();
+  translate([10, -62]) keycaps();
 }
 
 
@@ -225,4 +229,8 @@ module battery_compartment(){
       translate([-1,1, -1]) cube([63, 36, 6.5]);
     }
   }
+}
+
+module keycaps(){
+  packed(key_list());
 }
